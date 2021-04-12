@@ -1,0 +1,36 @@
+dd if=/dev/zero of=~/copyOfZero bs=1M count=2K
+
+#losetup object_initialized origin_file
+sudo losetup /dev/loop0 /home/vagrant/copyOfZero
+
+sudo mkfs.ext4 /dev/loop0
+
+sudo mkdir /mnt/tp1a
+
+sudo mount -t ext4 /dev/loop0 /mnt/tp1a/
+
+sudo apt-get install mdadm
+
+sudo cfdisk /dev/sdb
+# => [Type] => Linux RAID => [Write] => [Quit]
+
+sudo cfdisk /dev/sdc
+# => [Type] => Linux RAID => [Write] => [Quit]
+
+sudo mdadm --create /dev/md0 --level=1  --raid-devices=2 /dev/sdb1 /dev/sdc1
+
+sudo su -
+
+mdadm --examine --scan >> /etc/mdadm/mdadm.conf
+#ARRAY /dev/md/0  metadata=1.2 UUID=4124761b:0e8780d6:82e1a566:121e7e50 name=server:0
+
+update-initramfs -u
+
+sudo cfdisk /dev/md0
+
+sudo mkfs.ext4 /dev/md0
+
+sudo mkdir /mnt/tp1b
+
+sudo mount -t ext4 /dev/md0 /mnt/tp1b/
+

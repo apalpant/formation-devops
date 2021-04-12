@@ -1,0 +1,23 @@
+
+#!/bin/sh
+
+SEUIL=5
+message=/tmp/disk-space
+
+echo "Computing disk usage..."
+df -P | grep -v '^Filesystem' | sed 's/%//' |
+        while read fs total used avail capacity mount
+        do
+                if [ "$capacity" -gt $SEUIL ]; then
+                        echo $mount $capacity%
+                        printf "%-20s %5d%%\n" $mount $capacity >> $message
+                fi
+        done
+echo "Compute disk usage done"
+
+if [ -r $message ]; then
+        cat $message | mail -s "DISK USAGE - DISQUE PLEIN" -a "From: disk-usage@linux.fr" alexandre.palpant@gmail.com
+        rm -f $message
+fi
+
+

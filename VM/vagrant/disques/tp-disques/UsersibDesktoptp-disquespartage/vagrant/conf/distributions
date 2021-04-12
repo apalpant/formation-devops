@@ -1,0 +1,35 @@
+Origin: Vanessa Kovalsky
+Label: MYREPO
+Suite: stable
+Codename: myrepo-stable
+Architectures: amd64
+Components: main
+Description: My wonderfull repo
+SignWith: yes
+
+Origin: Vanessa Kovalsky
+Label: MYREPO
+Suite: stable-integration
+Codename: myrepo-stable-integration
+Architectures: amd64
+Components: main
+Description: My wonderfull repo
+SignWith: yes
+
+Origin: Vanessa Kovalsky
+Label: MYREPO
+Suite: testing
+Codename: myrepo-testing
+Architectures: amd64
+Components: main
+Description: My wonderfull repo
+SignWith: yes
+
+Origin: Vanessa Kovalsky
+Label: MYREPO
+Suite: testing-integration
+Codename: myrepo-testing-integration
+Architectures: amd64
+Components: main
+Description: My wonderfull repo
+SignWith: yes

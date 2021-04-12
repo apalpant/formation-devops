@@ -1,0 +1,8 @@
+Package: myinstall
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash
+Maintainer: Mr X <MrX@fun.com>
+Description: Install jenkins and display password

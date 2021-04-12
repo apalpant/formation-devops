@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure('2') do |config|
+  config.vm.box = 'debian/buster64'
+
+  config.vm.define 'secure-apache' do |machine|
+    machine.vm.hostname = 'secure-apache'
+	
+		#config.vm.network 'private_network',
+		#					type: 'dhcp'
+		
+		config.vm.network :forwarded_port, guest: 80, host: 8080
+
+		config.vm.provider 'virtualbox' do |vb|
+			vb.memory = '2048'
+		end
+    end
+	
+  config.vm.provision "shell", path: "provision.sh"
+  
+end

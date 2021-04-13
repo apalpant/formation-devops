@@ -10,6 +10,7 @@
   * Docker
   * Git
   * Agile
+  * `Python`
 
 * Monter en "savoir etre"
 

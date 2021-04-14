@@ -56,9 +56,12 @@ print(saisons[:][1])
 print("### Table de 9 - range ###")
 for i in range(1,10): print("{} x {} = {}".format(9, i, i*9)) 
 
-print("### Nombres pairs ###")
+print("### Nombres pairs - methode 1 ###")
 nbNombresPairs = 0
 for i in range(2,10001): 
     if(i % 2 == 0): 
         nbNombresPairs = nbNombresPairs + 1
-print(nbNombresPairs)        
+print(nbNombresPairs)       
+
+print("### Nombres pairs - methode 2 ###")
+print(len(list(filter(lambda nb: nb % 2 == 0, list(range(2,10001))))))

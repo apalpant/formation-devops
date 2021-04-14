@@ -64,4 +64,4 @@ for i in range(2,10001):
 print(nbNombresPairs)       
 
 print("### Nombres pairs - methode 2 ###")
-print(len(list(filter(lambda nb: nb % 2 == 0, list(range(2,10001))))))
+print(len(list(filter(lambda nb: nb % 2 == 0, range(2,10001)))))

@@ -1,0 +1,39 @@
+(1+2)**3
+>>> 27
+
+"Da" * 4
+>>> 'DaDaDaDa'
+
+"Da" + 3
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can only concatenate str (not "int") to str
+
+("Pa"+"La") * 2
+>>> 'PaLaPaLa'
+
+("Da"*4) / 2
+  File "<stdin>", line 1, in <module>
+TypeError: unsupported operand type(s) for /: 'str' and 'int'
+
+5 / 2
+>>> 2.5
+
+5 // 2
+>>> 2
+
+5 % 2
+>>> 1
+
+str(4) * int("3")
+>>> '444'
+
+int("3") + float("3.2")
+>>> 6.2
+
+str(3) * float("3.2")
+  File "<stdin>", line 1, in <module>
+TypeError: can't multiply sequence by non-int of type 'float'
+
+str(3/4) * 2
+>>> '0.750.75'

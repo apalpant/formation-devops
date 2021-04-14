@@ -1,2 +1,5 @@
 **/.vagrant/
 **.vdi
+**/.cache/
+**/.python_history
+**/.sudo_as_admin_successful

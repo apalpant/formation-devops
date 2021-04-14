@@ -1,19 +1,18 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
-ENV["LC_ALL"] = "fr_FR.UTF-8"
-
-Vagrant.configure('2') do |config|
-  config.vm.box = 'debian/buster64'
-
-  config.vm.network 'forwarded_port',
-                    guest: 80,
-                    host: 8880,
-                    host_ip: '127.0.0.1'
-
-  config.vm.provider 'virtualbox' do |vb|
-    vb.memory = '2048'
-  end
-	
-  config.vm.provision "shell", path: "provision.sh"
+ 
+VAGRANTFILE_API_VERSION = "2"
+ 
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+ config.vm.box = "bento/ubuntu-20.10"
+ 
+ # Provision
+ config.vm.provision :shell, :path => "provision.sh"
+ 
+ # To access a website running on port 8000, we can open a web browser 
+ # on our workstation and go to http://localhost:8000
+ config.vm.network "forwarded_port", guest: 8000, host: 8000
+ 
+ # Shared folder
+ config.vm.synced_folder "vagrant/", "/home/vagrant", create: true
 end

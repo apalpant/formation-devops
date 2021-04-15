@@ -1,6 +1,7 @@
 jours_semaine = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']
+
 print("### FOR - jours ouvres ###")
-for i in range(0,5):
+for i in range(5):
     print(jours_semaine[i])
     
 print("### FOR - jours weekend ###")
@@ -17,8 +18,8 @@ print("### WHILE - jours weekend ###")
 while index < 7:
     print(jours_semaine[index])
     index = index + 1
-
-print("### RANGE ###")
+    
+print("### SLICE ###")
 print(jours_semaine[0:5])
 
 print("### Dernier jour - methode 1 ###")
@@ -40,21 +41,30 @@ hiver = ['decembre', 'janvier', 'fevrier']
 saisons = [printemps, ete, automne, hiver]
 
 print("### saisons[0] ###")
+# Le premier element de la liste
 print(saisons[0])
 
 print("### saisons[1][0] ###")
+# Le premier element de la premiere liste
 print(saisons[1][0])
 
-
 print("### saisons[1:2] ###")
+# Le second element de la liste
 print(saisons[1:2])
 
 print("### saisons[:][1] ###")
+# Le second element de la liste
 print(saisons[:][1])
 # Slicing fetches sections
 
-print("### Table de 9 - range ###")
+print("### Table de 9 - range 1 ###")
 for i in range(1,10): print("{} x {} = {}".format(9, i, i*9)) 
+
+print("### Table de 9 - range 2 ###")
+for i in range(9,82,9): print("{} x {} = {}".format(9, 0, i)) 
+
+print("### Table de 9 - range 3 ###")
+print(list(range(9,82,9)))
 
 print("### Nombres pairs - methode 1 ###")
 nbNombresPairs = 0
@@ -64,4 +74,7 @@ for i in range(2,10001):
 print(nbNombresPairs)       
 
 print("### Nombres pairs - methode 2 ###")
-print(len(list(filter(lambda nb: nb % 2 == 0, range(2,10001)))))
+print(len(tuple(filter(lambda nb: nb % 2 == 0, tuple(range(2,10001))))))
+
+print("### Nombres pairs - methode 3 ###")
+print(len(tuple(range(2,10001, 2))))

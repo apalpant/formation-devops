@@ -16,13 +16,18 @@ somme_notes = 0
 # On declare le tableau de notes
 notes = []
 
+# On ouvre le fichier
 with open(filepath) as fp:
+    
     # On lit la premiere ligne
     line = fp.readline()
+    
     # On declare le nombre de notes
     nombre_notes = 0
+    
     # Tant que line est non vide
     while line:
+        
         # try:
         #    note = float(line)
         # except:

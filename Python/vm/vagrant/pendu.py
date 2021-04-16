@@ -1,6 +1,12 @@
 # Import
 import random
 
+# On definit le nombre d'essais maximum
+nbEssaisMax = 10
+
+# On definit le nombre d'essais
+nbEssais = 0
+
 # Methode pour imprimer le resultat du pendu
 
 
@@ -18,11 +24,9 @@ def printPendu(choix, lettresTrouvees, trouve):
 
 
 def boucle_du_jeu(lettresATrouver, choix):
-    # On definit le nombre d'essais maximum
-    nbEssaisMax = 10
 
-    # On definit le nombre d'essais
-    nbEssais = 0
+    global nbEssaisMax
+    global nbEssais
 
     # On initialise les variables
     lettresTrouvees = set([])
@@ -46,7 +50,7 @@ def boucle_du_jeu(lettresATrouver, choix):
             # Si les 2 sets sont identiques alors on a trouve le mot
             if(len(lettresTrouvees) == len(lettresATrouver)):
                 trouve = True
-                print("Vous avez trouve le mot {} en {} essais. Bravo !".format(
+                print("Vous avez trouve le mot \"{}\" en {} essais. Bravo !".format(
                     choix, nbEssais))
 
         # On imprime le resultat du pendu

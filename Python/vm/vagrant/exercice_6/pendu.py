@@ -4,12 +4,31 @@ import random
 # On definit le nombre d'essais maximum
 NB_ESSAI_MAX = 10
 
+# On definit les lettres a trouver
+lettresATrouver = set([])
+
+# On choisit le mot a deviner
+
+
+def choisitMotADeviner():
+
+    # On ouvre le fichier
+    f = open("pendu.txt", "r")
+
+    # On recupere les lignes (sous forme de liste)
+    lines = f.readlines()
+
+    # On selectionne un mot au hasard dans la liste
+    mot = random.choices(lines, k=1)
+    # On 'nettoie' la chaine
+    return mot[0].rstrip()
+
 # Methode pour imprimer le resultat du pendu
 
 
-def printPendu(choix, lettresTrouvees, trouve):
+def printPendu(motADeviner, lettresTrouvees, trouve):
     retour = ""
-    for lettre in choix:
+    for lettre in motADeviner:
         if(lettre in lettresTrouvees):
             retour += lettre
         else:
@@ -20,7 +39,7 @@ def printPendu(choix, lettresTrouvees, trouve):
 # Methode de la boucle du jeu
 
 
-def boucle_du_jeu(lettresATrouver, choix):
+def boucle_du_jeu(motADeviner):
 
     # On definit le nombre d'essais
     nbEssais = 0
@@ -33,7 +52,7 @@ def boucle_du_jeu(lettresATrouver, choix):
     while nbEssais < NB_ESSAI_MAX and (not trouve):
 
         # On recupere la lettre saisie
-        lettre = input("Tapez une lettre: ")
+        lettre = input("Tapez une lettre: ")[0:1].lower()
 
         # On incremente le nombre d'essais
         nbEssais += 1
@@ -48,38 +67,27 @@ def boucle_du_jeu(lettresATrouver, choix):
             if(len(lettresTrouvees) == len(lettresATrouver)):
                 trouve = True
                 print("Vous avez trouve le mot \"{}\" en {} essais. Bravo !".format(
-                    choix, nbEssais))
+                    motADeviner, nbEssais))
 
         # On imprime le resultat du pendu
-        printPendu(choix, lettresTrouvees, trouve)
+        printPendu(motADeviner, lettresTrouvees, trouve)
 
     return trouve
 
 
-# On ouvre le fichier
-f = open("pendu.txt", "r")
+# On choisit le mot a deviner
+motADeviner = choisitMotADeviner()
 
-# On recupere les lignes (sous forme de liste)
-lines = f.readlines()
-
-# On selectionne un mot au hasard dans la liste
-choix = random.choices(lines, k=1)
-# On 'nettoie' la chaine
-choix = choix[0].rstrip()
-
-# On identifie les lettres a trouver
-lettresATrouver = set([])
-
-# Pour chaque lettre contenue dans le mot choisi
-for lettre in choix:
+# Pour chaque lettre contenue dans le mot a deviner
+for lettre in motADeviner:
     # On ajoute la lettre dans le set car il ne peut pas contenir de doublons...
     lettresATrouver.add(lettre)
 
 # On regarde si on a trouve le mot
-trouve = boucle_du_jeu(lettresATrouver, choix)
+trouve = boucle_du_jeu(motADeviner)
 
 # Si on n'a pas trouve
 if(not trouve):
     # On affiche les messages d'erreurs
     print("Vous avez perdu")
-    print("Le mot etait donc {}".format(choix))
+    print("Le mot etait donc {}".format(motADeviner))

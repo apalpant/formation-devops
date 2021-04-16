@@ -2,10 +2,7 @@
 import random
 
 # On definit le nombre d'essais maximum
-nbEssaisMax = 10
-
-# On definit le nombre d'essais
-nbEssais = 0
+NB_ESSAI_MAX = 10
 
 # Methode pour imprimer le resultat du pendu
 
@@ -25,15 +22,15 @@ def printPendu(choix, lettresTrouvees, trouve):
 
 def boucle_du_jeu(lettresATrouver, choix):
 
-    global nbEssaisMax
-    global nbEssais
+    # On definit le nombre d'essais
+    nbEssais = 0
 
     # On initialise les variables
     lettresTrouvees = set([])
     trouve = False
 
     # Tant qu'on n'a pas atteint le nombre d'essai max ou qu'on n'a pas trouve
-    while nbEssais < nbEssaisMax and (not trouve):
+    while nbEssais < NB_ESSAI_MAX and (not trouve):
 
         # On recupere la lettre saisie
         lettre = input("Tapez une lettre: ")

@@ -16,11 +16,31 @@ class DockDemo(QMainWindow):
 
         self.items = QDockWidget('Dockable', self)
 
-        self.listWidget=QListWidget()
+        # Initialize tab screen
+        self.tabs = QTabWidget()
+        self.tab1 = QWidget()
+        self.tab2 = QWidget()
+        self.tabs.resize(300, 200)
+
+        # Add tabs
+        self.tabs.addTab(self.tab1, "Tab 1")
+        self.tabs.addTab(self.tab2, "Tab 2")
+
+        self.listWidget = QListWidget()
         self.listWidget.addItem('Item1')
         self.listWidget.addItem('Item2')
         self.listWidget.addItem('Item3')
         self.listWidget.addItem('Item4')
+
+        # Create first tab
+        self.tab1.layout = QVBoxLayout(self)
+        self.tab1.layout.addWidget(self.listWidget)
+        self.tab1.setLayout(self.tab1.layout)
+
+        self.tab2.layout = QVBoxLayout(self)
+        self.pushButton1 = QPushButton("PyQt5 button")
+        self.tab2.layout.addWidget(self.pushButton1)
+        self.tab2.setLayout(self.tab2.layout)
 
         self.createTable()
         self.items.setWidget(self.tableWidget)
@@ -28,7 +48,7 @@ class DockDemo(QMainWindow):
         # self.items.setWidget(self.listWidget)
         self.items.setFloating(False)
         # self.setCentralWidget(QTextEdit())
-        self.setCentralWidget(self.listWidget)
+        self.setCentralWidget(self.tabs)
         self.addDockWidget(Qt.RightDockWidgetArea, self.items)
 
         self.setLayout(layout)

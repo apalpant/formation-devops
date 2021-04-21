@@ -38,8 +38,31 @@ class DockDemo(QMainWindow):
         self.tab1.setLayout(self.tab1.layout)
 
         self.tab2.layout = QVBoxLayout(self)
+
+        data = {"Project A": ["file_a.py", "file_a.txt", "something.xls"],
+                "Project B": ["file_b.csv", "photo.jpg"],
+                "Project C": []}
+
+        self.tree = QTreeWidget()
+        self.tree.setColumnCount(2)
+        self.tree.setHeaderLabels(["Name", "Type"])
+
+        items = []
+
+        for key, values in data.items():
+            item = QTreeWidgetItem([key])
+            for value in values:
+                ext = value.split(".")[-1].upper()
+                child = QTreeWidgetItem([value, ext])
+                item.addChild(child)
+            items.append(item)
+
+        self.tree.insertTopLevelItems(0, items)
+
         self.pushButton1 = QPushButton("PyQt5 button")
-        self.tab2.layout.addWidget(self.pushButton1)
+        # self.tab2.layout.addWidget(self.pushButton1)
+        self.tab2.layout.addWidget(self.tree)
+
         self.tab2.setLayout(self.tab2.layout)
 
         self.createTable()

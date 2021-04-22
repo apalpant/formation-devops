@@ -7,15 +7,47 @@ from PyQt5.QtWidgets import *
 class DockDemo(QMainWindow):
     def __init__(self, parent=None):
         super(DockDemo, self).__init__(parent)
-        layout = QHBoxLayout()
+
+        self.createMenu()
+
+        self.createTabs()
+
+        self.createDock()
+        self.createDock2()
+
+        self.setWindowTitle('Dock')
+
+    # Manage menu
+    def createMenu(self):
         bar = self.menuBar()
         file = bar.addMenu('File')
         file.addAction('New')
         file.addAction('Save')
-        file.addAction('quit')
+        file.addAction('Quit')
 
-        self.items = QDockWidget('Dockable', self)
+    # Manage dock
+    def createDock(self):
+        self.items = QDockWidget('Dock items', self)
 
+        self.createTable()
+        self.items.setWidget(self.tableWidget)
+
+        self.items.setFloating(False)
+
+        self.addDockWidget(Qt.RightDockWidgetArea, self.items)
+
+    # Manage dock
+    def createDock2(self):
+        self.dock = QDockWidget('Dock TextEdit', self)
+
+        self.dock.setWidget(QTextEdit())
+
+        self.dock.setFloating(False)
+
+        self.addDockWidget(Qt.TopDockWidgetArea, self.dock)
+
+    # Manage tabs
+    def createTabs(self):
         # Initialize tab screen
         self.tabs = QTabWidget()
         self.tab1 = QWidget()
@@ -33,11 +65,11 @@ class DockDemo(QMainWindow):
         self.listWidget.addItem('Item4')
 
         # Create first tab
-        self.tab1.layout = QVBoxLayout(self)
+        self.tab1.layout = QVBoxLayout(self.tabs)
         self.tab1.layout.addWidget(self.listWidget)
         self.tab1.setLayout(self.tab1.layout)
 
-        self.tab2.layout = QVBoxLayout(self)
+        self.tab2.layout = QVBoxLayout(self.tabs)
 
         data = {"Project A": ["file_a.py", "file_a.txt", "something.xls"],
                 "Project B": ["file_b.csv", "photo.jpg"],
@@ -59,23 +91,11 @@ class DockDemo(QMainWindow):
 
         self.tree.insertTopLevelItems(0, items)
 
-        self.pushButton1 = QPushButton("PyQt5 button")
-        # self.tab2.layout.addWidget(self.pushButton1)
         self.tab2.layout.addWidget(self.tree)
 
         self.tab2.setLayout(self.tab2.layout)
 
-        self.createTable()
-        self.items.setWidget(self.tableWidget)
-
-        # self.items.setWidget(self.listWidget)
-        self.items.setFloating(False)
-        # self.setCentralWidget(QTextEdit())
         self.setCentralWidget(self.tabs)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.items)
-
-        self.setLayout(layout)
-        self.setWindowTitle('Dock')
 
     # Create table
     def createTable(self):

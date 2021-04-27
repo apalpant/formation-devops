@@ -3,34 +3,30 @@
 
 machines=[
   {
-    :hostname => "serverWeb",
+    :hostname => "serverWeb3",
     :box => "debian/buster64",
     :ram => 2048,
     :cpu => 2,
 	:gui => false,
-	:provision => "provision_server_web.sh"
+	:provision => "provision_server_web.sh",
+	# :network => 'forwarded_port', guest: 80, host: 80, host_ip: '127.0.0.1',
+	:file => "share"
   }
 ]
 
 Vagrant.configure(2) do |config|
     machines.each do |machine|
         config.vm.define machine[:hostname] do |node|
-            node.vm.box = machine[:box]			
 			node.vm.box_check_update = false
-            node.vm.hostname = machine[:hostname]
-			node.vm.synced_folder "share/", "/home/vagrant"
-			
-			  node.vm.network 'forwarded_port',
-                    guest: 80,
-                    host: 8880,
-                    host_ip: '127.0.0.1'
-			
-            # node.vm.network "private_network", ip: machine[:ip]
+            node.vm.box = machine[:box]			
+            node.vm.hostname = machine[:hostname]		
+			node.vm.network 'forwarded_port', guest: 80, host: 80, host_ip: '127.0.0.1'
             node.vm.provider "virtualbox" do |vb|
 				vb.gui = machine[:gui]
 				vb.memory = machine[:ram]
 				vb.cpus = machine[:cpu]
             end
+			node.vm.provision "file", source: machine[:file], destination: machine[:file]
 			node.vm.provision "shell", path: machine[:provision]
         end
     end

@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+machines=[
+  {
+    :hostname => "jenkins",
+    :ram => 2048,
+    :cpu => 2,
+	:gui => false,
+	:provision => "provision_jenkins.sh",
+	:ip => '192.168.0.42',
+  },
+  {
+    :hostname => "poste-dev",
+    :ram => 2048,
+    :cpu => 2,
+	:gui => false,
+	:provision => "provision_poste-dev.sh",
+	:ip => '192.168.0.43',
+  }
+]
+
+Vagrant.configure(2) do |config|
+	config.vm.box_check_update = false
+	config.vm.box = "debian/buster64"	
+    machines.each do |machine|
+        config.vm.define machine[:hostname] do |node|
+            node.vm.hostname = machine[:hostname]		
+			node.vm.network 'public_network', ip: machine[:ip]
+            node.vm.provider "virtualbox" do |vb|
+				vb.gui = machine[:gui]
+				vb.memory = machine[:ram]
+				vb.cpus = machine[:cpu]
+            end
+			node.vm.provision "shell", path: machine[:provision]
+        end
+    end
+end

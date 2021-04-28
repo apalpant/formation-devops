@@ -2,16 +2,16 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-	config.vm.box_check_update = false
 	config.vm.box = "debian/buster64"	
-	
+	config.vm.box_check_update = false
+		
 	 config.vm.define "jenkins" do |jenkins|
 		jenkins.vm.hostname = "jenkins"		
 		jenkins.vm.network 'public_network', ip: '192.168.1.42'
 		jenkins.vm.provider "virtualbox" do |vb|
 			vb.gui = false
-			vb.memory = 4096
-			vb.cpus = 4
+			vb.memory = 2048
+			vb.cpus = 2
 			
 			disk2_vdi = 'disk2.vdi'
 			

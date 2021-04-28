@@ -1,17 +1,11 @@
 #!/bin/sh
 
-echo "Installation reussie"
+useradd -m userjob
+echo -e 'password\npassword\n' | passwd userjob
 
-https://www.digitalocean.com/community/questions/ssh-copy-id-not-working-permission-denied-publickey
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bck
 
-Edit ssh config:
-sudo nano /etc/ssh/sshd_config
+sed "s/PasswordAuthentication no/PasswordAuthentication yes/" \
+/etc/ssh/sshd_config.bck > /etc/ssh/sshd_config
 
-Change this line:
-PasswordAuthentication no
-
-to
-PasswordAuthentication yes
-
-Restart daemon:
-sudo systemctl restart sshd
+systemctl restart sshd

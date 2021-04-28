@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+	config.vm.box_check_update = false
+	config.vm.box = "debian/buster64"	
+	
+	 config.vm.define "jenkins" do |jenkins|
+		jenkins.vm.hostname = "jenkins"		
+		jenkins.vm.network 'public_network', ip: '192.168.1.42'
+		jenkins.vm.provider "virtualbox" do |vb|
+			vb.gui = false
+			vb.memory = 4096
+			vb.cpus = 4
+			
+			disk2_vdi = 'disk2.vdi'
+			
+			# Creer les fichiers au bon format pour VBox s'ils n'existent pas
+			unless File.exist?(disk2_vdi)
+				vb.customize ['createhd', '--filename', disk2_vdi, '--size', 20 * 1024]
+			end
+			
+			# On attache les fichiers 'disque' sur la VM
+			vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
+				'--port', 1, '--device', 0, '--type', 'hdd', '--medium',
+				disk2_vdi]
+		end
+		jenkins.vm.provision "shell", path: "provision_jenkins.sh"
+	end
+end

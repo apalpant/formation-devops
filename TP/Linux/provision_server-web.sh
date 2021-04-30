@@ -35,4 +35,4 @@ chgrp -R vagrant /mnt/sauvegardes/
 mount -t nfs 192.168.1.1:/home/vagrant/sauvegardes/web/ /mnt/sauvegardes/web/
 
 # executer le script de sauvegarde toutes les heures
-crontab -e | 00 */1 * * * /sauvegarde-web.sh
+# crontab -e | 00 */1 * * * /sauvegarde-web.sh

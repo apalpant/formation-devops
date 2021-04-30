@@ -33,7 +33,7 @@ Il va ouvrir les ports demandés, installer jenkins et terminer son installation
 
 Il sera accessible à l'adresse 192.168.1.3:8080
 
-Lancez la commande pour vous connecter a un poste dev: 
+Lancez la commande pour vous connecter a jenkins: 
 ```
 vagrant ssh jenkins
 ```

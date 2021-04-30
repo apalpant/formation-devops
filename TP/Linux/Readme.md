@@ -9,6 +9,8 @@ Il faut lancer la commande
 Et attendre...  Cela va construire toutes les VM du tp à la suite. 
 Ci dessous le schéma des interactions entre les différentes VM et les différents fichiers/dossiers.
 
+![Schema vms](schema.png)
+
 ## Serveur NFS 
 
 Utilise le script "provision_server-nfs.sh" et aura pour ip 192.168.1.1

@@ -2,7 +2,7 @@
 
 echo "Restauration de $1..."
 
-CORBEILLE="$(realpath ~/corbeille)"
+CORBEILLE="/home/vagrant/corbeille"
 
 if [ -f "$CORBEILLE/$1" ]
 then

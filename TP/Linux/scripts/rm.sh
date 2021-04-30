@@ -1,6 +1,6 @@
 echo "Suppression de $1..."
 
-CORBEILLE="$(realpath ~/corbeille)"
+CORBEILLE="/home/vagrant/corbeille"
 
 if [ -f $(realpath $1) ]
 then

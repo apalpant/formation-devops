@@ -4,7 +4,7 @@ alias RM='f(){ ./rm.sh $1 }; f'
 
 alias RESTORE='g(){ ./restore.sh $1 }; g'
 
-CORBEILLE=~/corbeille/
+CORBEILLE=/home/vagrant/corbeille/
 
 alias TRASH='ls $CORBEILLE'
 

@@ -34,3 +34,19 @@ python3 example-python/vagrant/main.py
 # TODO expect
 # Bien joué votre VM avec python fonctionne
 
+# On installe le package nfs
+apt -y install nfs-common
+
+# créer le dossier partagé sous le répertoire /mnt
+mkdir -p /mnt/packages/
+
+# Changer le groupe et le owner (passage de 'root' a 'vagrant)'
+sudo chown -R vagrant /mnt/packages/
+sudo chgrp -R vagrant /mnt/packages/
+
+# monter le partage vers le serveur NFS
+mount -t nfs 192.168.1.1:/home/vagrant/packages/ /mnt/packages/
+
+dpkg -i /mnt/packages/tp.deb
+
+

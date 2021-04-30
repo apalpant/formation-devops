@@ -2,7 +2,7 @@
 
 # Prerequis 
 
-Il faut etre sur un reseau 192.168.1/24
+Il faut etre sur un reseau 192.168.1.0/24
 
 ## Lancement
 
@@ -22,8 +22,15 @@ Ci dessous le schéma des interactions entre les différentes VM et les différe
 Utilise le script "provision_server-nfs.sh" et aura pour ip 192.168.1.1
 Il contient dans son script de provision le __packaging (tp.deb)__ des scripts rm et restore.
 
-Il connait cependant quelques soucis il faudra tester les scripts "a la main" dans une vm vierge.
-
+Lancez la commande pour vous connecter au serveur NFS: 
+```
+vagrant ssh serverNFS
+```
+Puis tapez la commande: 
+```
+rpcinfo -p | grep nfs
+```
+On doit avoir une réponse...
 
 ## Serveur Web
 
@@ -68,4 +75,8 @@ vagrant ssh poste_dev_3
 puis tapez la commande: 
 ```
 python3 example-python/vagrant/main.py
+```
+Pour vérifier le déploiement du tp.deb en automatique:
+```
+rm.sh <fichier>
 ```

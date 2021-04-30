@@ -66,4 +66,20 @@ sed "s/PasswordAuthentication no/PasswordAuthentication yes/" \
 # On restart le service
 systemctl restart sshd
 
+# On installe le package nfs
+apt -y install nfs-common
+
+# créer le dossier partagé sous le répertoire /mnt
+mkdir -p /mnt/sauvegardes/jenkins/
+
+# Changer le groupe et le owner (passage de 'root' a 'vagrant)'
+chown -R vagrant /mnt/sauvegardes/
+chgrp -R vagrant /mnt/sauvegardes/
+
+# monter le partage vers le serveur NFS
+mount -t nfs 192.168.1.1:/home/vagrant/sauvegardes/jenkins/ /mnt/sauvegardes/jenkins/
+
+# executer le script de sauvegarde toutes les heures
+crontab -e | 00 */1 * * * /sauvegarde-jenkins.sh
+
 

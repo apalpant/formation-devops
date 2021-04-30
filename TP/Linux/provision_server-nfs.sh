@@ -17,12 +17,10 @@ mkdir -p /home/vagrant/sauvegardes/jenkins/
 # définir les droits et le répertoire partagé
 echo "/home/vagrant/sauvegardes/web 192.168.1.2(rw,sync)" | sudo tee -a /etc/exports
 echo "/home/vagrant/sauvegardes/jenkins 192.168.1.3(rw,sync)" | sudo tee -a /etc/exports
-echo "/home/vagrant/sauvegardes/ 192.168.1/24(ro,sync)" | sudo tee -a /etc/exports
+echo "/home/vagrant/sauvegardes/ 192.168.1.0/24(ro,sync)" | sudo tee -a /etc/exports
 
 #donner la permission aux clients
-#echo "ALL:192.168.1.51/24" | sudo tee -a /etc/hosts.allow
-#echo "ALL:192.168.1.2" | sudo tee -a /etc/hosts.allow
-echo "ALL:192.168.1/24" | sudo tee -a /etc/hosts.allow
+echo "ALL:192.168.1.0/24" | sudo tee -a /etc/hosts.allow
 
 #restart NFS
 service nfs-kernel-server restart

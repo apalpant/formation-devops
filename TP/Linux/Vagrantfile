@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
             vb.cpus = 2
         end
 		serverNFS.vm.provision "file", source: "scripts", destination: "scripts"
-        # serverNFS.vm.provision "shell", path: "provision_server-nfs.sh"
+        serverNFS.vm.provision "shell", path: "provision_server-nfs.sh"
     end
 
 	config.vm.define "serverWeb" do |serverWeb|

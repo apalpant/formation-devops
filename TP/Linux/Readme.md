@@ -61,6 +61,7 @@ puis tapez la commande:
 ```
 python3 example-python/vagrant/main.py
 ```
+![Schema vms](schema.png)
 
 ```mermaid
 graph LR

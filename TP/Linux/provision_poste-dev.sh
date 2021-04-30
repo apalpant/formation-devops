@@ -7,7 +7,7 @@ apt install sshpass
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa
 
 # On copie la cle sur le serveur avec le compte userjob
-sshpass -p userjob ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no userjob@192.168.1.42
+sshpass -p userjob ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no userjob@192.168.1.3
 
 # Installation des logiciels demandes
 apt install -y python3 python-pip python3-dev git 

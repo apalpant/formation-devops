@@ -1,0 +1,66 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+
+	config.vm.box = "debian/buster64"	
+	config.vm.box_check_update = false
+	
+	config.vm.define "serverNFS" do |serverNFS|
+        serverNFS.vm.hostname = "serverNFS"        
+        serverNFS.vm.network 'public_network', ip: '192.168.1.1'
+        serverNFS.vm.provider "virtualbox" do |vb|
+            vb.gui = false
+            vb.memory = 2048
+            vb.cpus = 2
+        end
+		serverNFS.vm.provision "file", source: "scripts", destination: "scripts"
+        serverNFS.vm.provision "shell", path: "provision_server-nfs.sh"
+    end
+
+	config.vm.define "serverWeb" do |serverWeb|
+		serverWeb.vm.hostname = "serverWeb"		
+		serverWeb.vm.network 'public_network', ip: '192.168.1.2'
+		serverWeb.vm.provider "virtualbox" do |vb|
+			vb.gui = false
+			vb.memory = 2048
+			vb.cpus = 2
+		end		
+		serverWeb.vm.provision "file", source: "share", destination: "share"
+		serverWeb.vm.provision "shell", path: "provision_server-web.sh"
+	end
+		
+	config.vm.define "jenkins" do |jenkins|
+		jenkins.vm.hostname = "jenkins"		
+		jenkins.vm.network 'public_network', ip: '192.168.1.3'
+		jenkins.vm.provider "virtualbox" do |vb|
+			vb.gui = false
+			vb.memory = 2048
+			vb.cpus = 2
+			
+			disk2_vdi = 'disk2.vdi'
+			
+			unless File.exist?(disk2_vdi)
+				vb.customize ['createhd', '--filename', disk2_vdi, '--size', 20 * 1024]
+			end
+			
+			vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
+				'--port', 1, '--device', 0, '--type', 'hdd', '--medium',
+				disk2_vdi]
+		end		
+		jenkins.vm.provision "shell", path: "provision_jenkins.sh"
+	end
+	
+	(1..3).each do |i|
+		 config.vm.define "poste_dev_#{i}" do |node|
+            node.vm.hostname = "postedev#{i}"		
+			node.vm.network 'public_network', ip: "192.168.1.2#{i}"
+            node.vm.provider "virtualbox" do |vb|
+				vb.gui = false
+				vb.memory = 4096
+				vb.cpus = 4
+            end
+			node.vm.provision "shell", path: "provision_poste-dev.sh"
+        end
+	end
+end

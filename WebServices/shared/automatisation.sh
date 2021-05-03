@@ -18,7 +18,7 @@ post_message(){
 	
 get_conversations_list(){
 	curl https://slack.com/api/conversations.list \
-		-H "Authorization: Bearer xoxb-1883936723840-2024390792898-abmLXO6gVdmJpoV8679zuDH7" > conversations.list
+		-H "Authorization: Bearer ${BOT_SLACK_TOKEN}" > conversations.list
 }
 
 

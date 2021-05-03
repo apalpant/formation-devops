@@ -16,15 +16,15 @@ mkdir -p /home/vagrant/sauvegardes/jenkins/
 mkdir -p /home/vagrant/packages/
 
 # Changer le groupe et le owner (passage de 'root' a 'vagrant)'
-sudo chown -R vagrant sauvegardes/
-sudo chgrp -R vagrant sauvegardes/
+sudo chown -R vagrant /home/vagrant/sauvegardes/
+sudo chgrp -R vagrant /home/vagrant/sauvegardes/
 
-sudo chown -R vagrant packages/
-sudo chgrp -R vagrant packages/
+sudo chown -R vagrant /home/vagrant/packages/
+sudo chgrp -R vagrant /home/vagrant/packages/
 
 # définir les droits et le répertoire partagé
-echo "/home/vagrant/sauvegardes/web 192.168.1.2(rw,sync)" | sudo tee -a /etc/exports
-echo "/home/vagrant/sauvegardes/jenkins 192.168.1.3(rw,sync)" | sudo tee -a /etc/exports
+echo "/home/vagrant/sauvegardes/web/ 192.168.1.2(rw,sync)" | sudo tee -a /etc/exports
+echo "/home/vagrant/sauvegardes/jenkins/ 192.168.1.3(rw,sync)" | sudo tee -a /etc/exports
 echo "/home/vagrant/packages/ 192.168.1.0/24(ro,sync)" | sudo tee -a /etc/exports
 
 #donner la permission aux clients

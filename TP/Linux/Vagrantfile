@@ -14,7 +14,7 @@ Vagrant.configure(2) do |config|
             vb.memory = 2048
             vb.cpus = 2
         end
-		serverNFS.vm.provision "file", source: "scripts", destination: "scripts"
+		serverNFS.vm.provision "file", source: "scripts-serverNFS", destination: "scripts"
         serverNFS.vm.provision "shell", path: "provision_server-nfs.sh"
     end
 
@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
 			vb.memory = 2048
 			vb.cpus = 2
 		end		
-		serverWeb.vm.provision "file", source: "share", destination: "share"
+		serverWeb.vm.provision "file", source: "scripts-serverWeb", destination: "scripts"
 		serverWeb.vm.provision "shell", path: "provision_server-web.sh"
 	end
 		
@@ -48,6 +48,7 @@ Vagrant.configure(2) do |config|
 				'--port', 1, '--device', 0, '--type', 'hdd', '--medium',
 				disk2_vdi]
 		end		
+		jenkins.vm.provision "file", source: "jenkins", destination: "jenkins"
 		jenkins.vm.provision "shell", path: "provision_jenkins.sh"
 	end
 	

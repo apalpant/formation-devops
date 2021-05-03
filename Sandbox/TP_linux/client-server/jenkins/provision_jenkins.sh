@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# On install un utilitaire
+apt install dos2unix
+
 # On installe le pare-feu
 apt install ufw
 
@@ -62,3 +65,26 @@ sed "s/PasswordAuthentication no/PasswordAuthentication yes/" \
 
 # On restart le service
 systemctl restart sshd
+
+SCRIPTS_HOME=/home/vagrant/scripts
+chmod +x $SCRIPTS_HOME/preinst
+chmod +x $SCRIPTS_HOME/restore.sh
+chmod +x $SCRIPTS_HOME/rm.sh
+
+dos2unix $SCRIPTS_HOME/preinst
+dos2unix $SCRIPTS_HOME/restore.sh
+dos2unix $SCRIPTS_HOME/rm.sh
+
+DEB_HOME=/home/vagrant/tp
+mkdir -p $DEB_HOME/DEBIAN/
+
+cp $SCRIPTS_HOME/preinst $DEB_HOME/DEBIAN/
+cp $SCRIPTS_HOME/control $DEB_HOME/DEBIAN/
+
+mkdir -p /home/vagrant/tp/usr/bin/
+
+cp $SCRIPTS_HOME/rm.sh $DEB_HOME/usr/bin/
+cp $SCRIPTS_HOME/restore.sh $DEB_HOME/usr/bin/
+
+dpkg-deb --build --root-owner-group $DEB_HOME
+

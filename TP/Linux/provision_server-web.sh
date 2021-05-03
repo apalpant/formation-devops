@@ -14,7 +14,7 @@ ufw allow http
 ufw allow https
 
 # On deplace le index.html partage vers le repertoire cible
-mv /home/vagrant/share/index.html /var/www/html/
+mv /home/vagrant/serverWeb/index.html /var/www/html/
 
 # On change le 'owner' sur le dossier 'html'
 cd /var/www
@@ -35,4 +35,7 @@ chgrp -R vagrant /mnt/sauvegardes/
 mount -t nfs 192.168.1.1:/home/vagrant/sauvegardes/web/ /mnt/sauvegardes/web/
 
 # executer le script de sauvegarde toutes les heures
-crontab -e | 00 */1 * * * /sauvegarde-web.sh
+# crontab -e | 00 */1 * * * /home/vagrant/scripts/sauvegarde-web.sh
+
+# Supprimer la sauvegarde tous les 7 jours (chaque lundi à 6h)
+# crontab -e | 00 6 * * 1 /home/vagrant/scripts/suppression-web.sh

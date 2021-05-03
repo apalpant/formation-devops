@@ -1,0 +1,8 @@
+Package: tp
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash
+Maintainer: Channoufi/Palpant
+Description: Utilisation de commande pour mettre des fichiers dans une corbeille ou les restaurer

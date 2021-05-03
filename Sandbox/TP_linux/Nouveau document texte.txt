@@ -1,0 +1,9 @@
+echo "Suppression de $1..."
+
+# Creation du filename.info
+echo $1 > $(basename $1).info
+
+# Deplacement du fichier dans la corbeille
+mv $1 ~/corbeille
+
+echo "Suppression de $1 effectuee"

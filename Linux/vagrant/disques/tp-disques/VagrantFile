@@ -18,28 +18,22 @@ Vagrant.configure('2') do |config|
 
       # UNCOMMENT FOR MORE DISKS
       disk2_vdi = 'disk2.vdi'
-      disk3_vdi = 'disk3.vdi'
 
       # Creer les fichiers au bon format pour VBox s'ils n'existent pas
       unless File.exist?(disk2_vdi)
         vb.customize ['createhd', '--filename', disk2_vdi, '--size', 5 * 1024]
-      end
-      unless File.exist?(disk3_vdi)
-        vb.customize ['createhd', '--filename', disk3_vdi, '--size', 5 * 1024]
       end
 
       # On attache les fichiers 'disque' sur la VM
       vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
                     '--port', 1, '--device', 0, '--type', 'hdd', '--medium',
                     disk2_vdi]
-      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
-                    '--port', 2, '--device', 0, '--type', 'hdd', '--medium',
-                    disk3_vdi]
+     
     end
   end
 
   # config.vm.provision 'shell', path: 'provision.sh'
-  config.vm.provision 'shell', inline: <<-SHELL
-    apt-get update
-  SHELL
+  # config.vm.provision 'shell', inline: <<-SHELL
+  #  apt-get update
+  # SHELL
 end

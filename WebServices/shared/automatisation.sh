@@ -26,6 +26,6 @@ get_conversations_list(){
 
 # get_conversations_list
 
-post_message ${CANAL_BOT} "Reminder: we've got a coding game tonight!"
+# post_message ${CANAL_BOT} "Reminder: we've got a coding game tonight!"
 
-post_message ${CANAL_BOT} "In function"
+# post_message ${CANAL_BOT} "In function"

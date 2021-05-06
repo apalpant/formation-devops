@@ -1,12 +1,14 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
-sudo apt update -y
-sudo apt install -y openjdk-11-jdk
+sudo apt update
+
+apt install -y openjdk-8-jdk
+apt install -y unzip
 
 ## Récupération de la dernière version
 
 VERSION=7.0
-wget https://services.gradle.org/distributions/gradle-${VERSION}-bin.zip -P /tmp
+wget https://downloads.gradle-dn.com/distributions/gradle-${VERSION}-bin.zip -P /tmp
 
 unzip -d /opt/gradle /tmp/gradle-${VERSION}-bin.zip
 
@@ -67,10 +69,12 @@ systemctl daemon-reload
 
 systemctl enable --now nexus.service
 
-ufw allow 8081/tcp
+ufw default allow outgoing
+
+ufw allow 8081
 ufw allow ssh
 
-ufw enable
+ufw --force enable
 
 # Affiche le mot de passe
 echo 'Mot de passe admin \n'

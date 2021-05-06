@@ -21,18 +21,19 @@ version = majorVersion + "." + minorVersion
 
 task purge(type:Delete) {
   //println 'Cleaning up old files'
-  delete 'build'
+  delete 'build/application-1.0.zip'
 }
 
-task composer(type:Exec, dependsOn: purge) {
-  //println 'Setting up dependencies'
-  executable 'sh'
-  args '-c', 'sudo apt install -y python3 python3-pip python3-dev'
-  standardOutput = new ByteArrayOutputStream()
-  ext.output = { return standardOutput.toString() }
-}
+// task composer(type:Exec, dependsOn: purge) {
+  // println 'Setting up dependencies'
+ // executable 'sh'
+ // args '-c', 'sudo apt install -y python3 python3-pip python3-dev'
+ // standardOutput = new ByteArrayOutputStream()
+//  ext.output = { return standardOutput.toString() }
+// }
 
-task vendor(type:Exec, dependsOn: composer) {
+// task vendor(type:Exec, dependsOn: composer) {
+task vendor(type:Exec, dependsOn: purge) {
   //println 'Installing dependencies'
   executable 'sh'
   args '-c', 'pip install pymongo flask'
@@ -50,19 +51,46 @@ task packageDistribution(type: Zip, dependsOn: vendor) {
 
 group = 'laravel-kingoludo'
 
+// gradle generatePomFileForMavenPublication
+// gradle publish
+// do not delete build folder cause pom-default is generated there
+
 publishing {
     publications {
         maven(MavenPublication) {
+			pom {
+                name = 'My Library'
+                description = 'A concise description of my library'
+                url = 'http://www.example.com/library'
+                properties = [
+                    myProp: "value",
+                    "prop.with.dots": "anotherValue"
+                ]
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'johnd'
+                        name = 'John Doe'
+                        email = 'john.doe@example.com'
+                    }
+                }
+            }			
             artifact source: packageDistribution, extension: 'zip'
         }
     }
     repositories {
         maven {
-            credentials {
-                username username
-                password password
+			allowInsecureProtocol = true
+			url "http://192.168.1.44:8081/repository/own-raw-hosted-repo/"
+			credentials {
+                username "admin"
+                password "admin"
             }
-            url nexusRepo
-        }
+		}
     }
 }

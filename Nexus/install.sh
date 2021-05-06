@@ -80,3 +80,5 @@ ufw --force enable
 echo 'Mot de passe admin \n'
 cat /opt/nexus/sonatype-work/nexus3/admin.password
 echo '\n\n'
+
+cp /home/project/alex/gradle.properties /home/vagrant/.gradle/

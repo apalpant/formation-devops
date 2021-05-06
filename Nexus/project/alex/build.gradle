@@ -21,18 +21,10 @@ version = majorVersion + "." + minorVersion
 
 task purge(type:Delete) {
   //println 'Cleaning up old files'
-  delete 'build/application-1.0.zip'
+  delete 'build/tmp/'
+   delete fileTree(dir: 'build' , include: '**/*.zip')
 }
 
-// task composer(type:Exec, dependsOn: purge) {
-  // println 'Setting up dependencies'
- // executable 'sh'
- // args '-c', 'sudo apt install -y python3 python3-pip python3-dev'
- // standardOutput = new ByteArrayOutputStream()
-//  ext.output = { return standardOutput.toString() }
-// }
-
-// task vendor(type:Exec, dependsOn: composer) {
 task vendor(type:Exec, dependsOn: purge) {
   //println 'Installing dependencies'
   executable 'sh'
@@ -40,7 +32,6 @@ task vendor(type:Exec, dependsOn: purge) {
   standardOutput = new ByteArrayOutputStream()
   ext.output = { return standardOutput.toString() }
 }
-
 
 def tarfile = "application-" + version
 task packageDistribution(type: Zip, dependsOn: vendor) {
@@ -86,10 +77,10 @@ publishing {
     repositories {
         maven {
 			allowInsecureProtocol = true
-			url "http://192.168.1.44:8081/repository/own-raw-hosted-repo/"
+			url nexusRepo
 			credentials {
-                username "admin"
-                password "admin"
+                username nexusUsername
+                password nexusPassword
             }
 		}
     }

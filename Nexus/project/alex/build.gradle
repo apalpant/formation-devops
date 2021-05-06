@@ -33,6 +33,17 @@ task vendor(type:Exec, dependsOn: purge) {
   ext.output = { return standardOutput.toString() }
 }
 
+// Exemple de task de test
+//task test(type:Exec, dependsOn: installDeps) {
+  //println 'Executing tests'
+  //executable 'sh'
+  //args '-c', "php \
+   // './project/vendor/phpunit/phpunit/phpunit' \
+   // --configuration='./project/phpunit.xml' \
+   // --log-junit='./logs/unitreport.xml'\
+   // ./project/tests"
+//}
+
 def tarfile = "application-" + version
 task packageDistribution(type: Zip, dependsOn: vendor) {
     from ('src') { into 'src' }

@@ -1,0 +1,47 @@
+buildscript {
+  repositories {
+    gradlePluginPortal()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.org.swissphpfriends:php-build-plugin:0.1-SNAPSHOT"
+  }
+}
+
+apply plugin: "org.hasnat.php-build-plugin"
+apply plugin: "distribution"
+
+def majorVersion = System.getenv("MAJOR_VERSION") ?: "1"
+def minorVersion = System.getenv("MINOR_VERSION") ?: "0"
+version = majorVersion + "." + minorVersion 
+
+task purge(type:Delete) {
+  //println 'Cleaning up old files'
+  delete 'build'
+}
+
+task composer(type:Exec, dependsOn: purge) {
+  //println 'Setting up dependencies'
+  executable 'sh'
+  args '-c', 'sudo apt install -y python3 python3-pip python3-dev'
+  standardOutput = new ByteArrayOutputStream()
+  ext.output = { return standardOutput.toString() }
+}
+
+task vendor(type:Exec, dependsOn: composer) {
+  //println 'Installing dependencies'
+  executable 'sh'
+  args '-c', 'pip install pymongo flask'
+  standardOutput = new ByteArrayOutputStream()
+  ext.output = { return standardOutput.toString() }
+}
+
+
+def tarfile = "application-" + version
+task packageDistribution(type: Zip, dependsOn: vendor) {
+    from ('src') { into 'src' }
+    archiveFileName = tarfile + ".zip"
+    destinationDirectory = file("build")
+}

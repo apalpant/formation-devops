@@ -1,0 +1,32 @@
+- Pourquoi DevOps ?
+- Avantages / inconvénients de DevOps
+- Chaine d'outils DevOps
+
++
+	- ops cherchent la stabilité
+	- efficacité à améliorer: 
+			* les cycles de livraison logicielle, 
+			* la qualité logicielle, 
+			* la sécurité 
+			* capacité à avoir un retour rapide des clients sur le produit
+			* communication et la collaboration entre les équipes chargées du développement et des opérations
+	- optimiser les coûts -> Automatisation accrue
+	- environnements  "prêts à l’emploi"
+	- Tests/déploiements automatiques
+	- Gestionnaire d’artefact
+	
+-
+	- dev cherchent nouveauté
+	- du mal aujourd’hui à se retrouver derrière cet étendard par méconnaissance
+	- ne pas réduire le devops a l'automatisation => prendre exemple sur le CALMS model.
+
+Chaîne d'outils DevOps
+Les adeptes des pratiques DevOps intègrent souvent des outils compatibles DevOps dans leur «chaîne d'outils» pour rationaliser, accélérer et automatiser davantage les différentes étapes du workflow (ou «pipeline») de fourniture des logiciels. Ces outils renforcent les principes fondamentaux du DevOps tels que l'automatisation, la collaboration et l'intégration entre les équipes chargées du développement et des opérations. Voici quelques exemples d'outils employés à différentes étapes du cycle de vie DevOps.
+
+Planification. Cette phase permet de définir la valeur commerciale et les exigences. Jira et Git peuvent être utilisés pour le suivi des problèmes connus et la gestion des projets.
+Code. Cette phase inclut la conception logicielle et la création du code logiciel à l'aide des logiciels GitHub, GitLab, Bitbucket ou Stash, par exemple.
+Création. Cette phase consiste à gérer les versions logicielles et à exploiter des outils automatisés pour compiler et intégrer le code en vue de sa mise en production. Des référentiels de code source ou de package « empaquettent » aussi l'infrastructure requise pour la livraison du produit à l'aide des logiciels Docker, Ansible, Puppet, Chef, Gradle, Maven ou JFrog Artifactory, par exemple.
+Test. Cette phase comprend des tests continus, qu'ils soient manuels ou automatisés, et vise à assurer une qualité de code optimale à l'aide des logiciels JUnit, Codeception, Selenium, Vagrant, TestNG ou BlazeMeter, par exemple.
+Déploiement. Cette phase peut inclure des outils de gestion, de coordination, de planification et d'automatisation de la mise en production des produits, avec Puppet, Chef, Ansible, Jenkins, Kubernetes, OpenShift, OpenStack, Docker ou Jira, par exemple.
+Exploitation. Cette phase permet de gérer les logiciels en production à l'aide des logiciels Ansible, Puppet, PowerShell, Chef, Salt ou Otter, par exemple.
+Supervision. Cette phase permet d'identifier les problèmes affectant une version logicielle en production et de collecter les informations correspondantes à l'aide des logiciels New Relic, Datadog, Grafana, Wireshark, Splunk, Nagios ou Slack, par exemple.

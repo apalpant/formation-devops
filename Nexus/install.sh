@@ -1,7 +1,28 @@
 #!/usr/bin/bash
 
 sudo apt update -y
-sudo apt install -y openjdk-8-jdk
+sudo apt install -y openjdk-11-jdk
+
+## Récupération de la dernière version
+
+VERSION=7.0
+wget https://services.gradle.org/distributions/gradle-${VERSION}-bin.zip -P /tmp
+
+unzip -d /opt/gradle /tmp/gradle-${VERSION}-bin.zip
+
+# Faire pointer le lien vers la dernière version de gradle
+
+ln -s /opt/gradle/gradle-${VERSION} /opt/gradle/latest
+
+# Ajout de gradle au PATH
+
+touch /etc/profile.d/gradle.sh
+
+echo "export PATH=/opt/gradle/latest/bin:${PATH}" > /etc/profile.d/gradle.sh
+
+chmod +x /etc/profile.d/gradle.sh
+
+source /etc/profile.d/gradle.sh
 
 useradd -M -d /opt/nexus -s /bin/bash -r nexus
 echo "nexus   ALL=(ALL)       NOPASSWD: ALL" > /etc/sudoers.d/nexus
@@ -47,6 +68,9 @@ systemctl daemon-reload
 systemctl enable --now nexus.service
 
 ufw allow 8081/tcp
+ufw allow ssh
+
+ufw enable
 
 # Affiche le mot de passe
 echo 'Mot de passe admin \n'

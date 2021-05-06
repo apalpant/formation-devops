@@ -1,0 +1,15 @@
+Debian 
+
+utilisateur : ib
+mot de passe : password
+
+Centos
+
+utilisateur : ib
+mot de passe : password
+
+
+
+Ubuntu:
+utilisateur : ib
+mot de passe : password

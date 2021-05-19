@@ -1,0 +1,37 @@
+version: '3'
+services:
+
+    mongo-srv:
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        # (lock) error checking context: 'no permission to read from '/home/vagrant/exo3/public/db/WiredTiger''.
+        # volumes: 
+        #    - ./public/db:/data/db/
+
+    node-app:
+        build: 
+            dockerfile: Dockerfile-nodejs
+            context: .
+        depends_on: 
+            - mongo-srv
+        ports: 
+            - 3000:3000
+        # volumes:
+        #    - ./public/web/js/:/app/
+
+    python-app:
+        build: 
+            dockerfile: Dockerfile-flask
+            context: .
+        depends_on: 
+            - mongo-srv
+        ports:
+            - "80:5000"
+        # restart: always
+        volumes: 
+            - ./public/web/python/:/app/
+
+    

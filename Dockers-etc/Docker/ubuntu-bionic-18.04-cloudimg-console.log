@@ -626,4 +626,5 @@ Welcome to [1mUbuntu 18.04.5 LTS[0m!
 
 Ubuntu 18.04.5 LTS ubuntu-bionic ttyS0
 
-ubuntu-bionic login: 
+ubuntu-bionic login: [77059.571226] Out of memory: Kill process 9851 (node) score 548 or sacrifice child
+[77059.572195] Killed process 9869 (node) total-vm:656792kB, anon-rss:36084kB, file-rss:0kB, shmem-rss:0kB

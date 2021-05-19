@@ -1,0 +1,5 @@
+# Read more about SSH config files: https://linux.die.net/man/5/ssh_config
+Host vm-docker
+    HostName 192.168.1.25
+    User vagrant
+    IdentityFile C:\formation-devops\Dockers-etc\Docker\.vagrant\machines\default\virtualbox\private_key

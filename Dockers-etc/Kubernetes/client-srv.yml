@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-srv
+spec:
+  type: NodePort
+  selector:
+    # Correspond au label dans le client-pod/labels
+    app: client
+  ports:
+      - port: 3000    # accessibilité de ce service depuis l'intérieur du cluster
+        targetPort: 3000    # cible l'application serveur containerisé dans le pod referencé par ce selector
+        nodePort: 30007   # accessibilité pour l'accès depuis l'extérieur du cluster

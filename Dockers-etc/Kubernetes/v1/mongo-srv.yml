@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # Sert a la resolution DNS interne (au cluster)
+  name: mongo-srv
+spec:
+  type: ClusterIP # type par defaut, a l'inverse de NodePort il n'expose pas le pod à l'extérieur.
+  selector:
+    # Correspond au label dans le mongo-pod/labels
+    app: mongo
+  ports:
+      - port: 27017    # accessibilité de ce service depuis l'intérieur du cluster
+        targetPort: 27017    # cible l'application serveur containerisé dans le pod referencé par ce selector

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-dpl
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: mongo
+  template:
+    metadata:
+      name: mongo-pod
+      labels:
+        # Champ non impose
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo
+          volumeMounts:
+            - name: mongo-storage # nom arbitraire
+              mountPath: /data/db
+      volumes:
+        - name: mongo-storage
+          persistentVolumeClaim: 
+            claimName: mongo-pvc
+
+# Saut de configuration
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  # Sert a la resolution DNS interne (au cluster)
+  name: mongo-srv
+spec:
+  type: ClusterIP # type par defaut, a l'inverse de NodePort il n'expose pas le pod à l'extérieur.
+  selector:
+    # Correspond au label dans le mongo-pod/labels
+    app: mongo
+  ports:
+      - port: 27017    # accessibilité de ce service depuis l'intérieur du cluster
+        targetPort: 27017    # cible l'application serveur containerisé dans le pod referencé par ce selector

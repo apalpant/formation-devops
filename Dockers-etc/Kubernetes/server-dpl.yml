@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-dpl
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: server
+  template:
+    metadata:
+      name: server-pod
+      labels:
+        # Champ non impose
+        app: server
+    spec:
+      containers:
+      - name: server
+        image: laithharb/server:v1
+
+# Saut de configuration
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-srv
+spec:
+  type: NodePort
+  selector:
+    # Correspond au label dans le mongo-pod/labels
+    app: server
+  ports:
+      - port: 3000    # accessibilité de ce service depuis l'intérieur du cluster
+        targetPort: 3000    # cible l'application serveur containerisé dans le pod referencé par ce selector
+        nodePort: 30008   # accessibilité pour l'accès depuis l'extérieur du cluster

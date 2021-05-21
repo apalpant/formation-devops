@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-dpl
+spec:
+  replicas: 3
+  selector:
+    matchLabels: 
+      app: client
+  template:
+    metadata:
+      name: client-pod
+      labels:
+        # Champ non impose
+        app: client
+    spec:
+      containers:
+      - name: client
+        image: laithharb/web-app:v2
+# Saut de configuration
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-srv
+spec:
+  type: NodePort
+  selector:
+    # Correspond au label dans le client-pod/labels
+    app: client
+  ports:
+      - port: 3200    # accessibilité de ce service depuis l'intérieur du cluster
+        targetPort: 3000    # cible l'application serveur containerisé dans le pod referencé par ce selector
+        nodePort: 30007   # accessibilité pour l'accès depuis l'extérieur du cluster

@@ -6,3 +6,5 @@
 **/.sudo_as_admin_successful
 **/__pycache__
 **/node_modules
+**/ubuntu-bionic-18.04-cloudimg-console.txt
+**/keys/

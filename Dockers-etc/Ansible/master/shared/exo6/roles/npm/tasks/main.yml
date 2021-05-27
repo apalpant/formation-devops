@@ -1,0 +1,13 @@
+- name: include vars
+  include_vars: "{{ playbook_dir }}/config.yml"
+
+- name: Install deps with npm
+  shell: "npm install"
+  args:
+    chdir: "{{ destdir }}"
+
+- name: Start app
+  shell: "(node server.js > nodeserver.log 2>&1 &)"
+  args:
+  chdir: "{{ destdir }}"
+

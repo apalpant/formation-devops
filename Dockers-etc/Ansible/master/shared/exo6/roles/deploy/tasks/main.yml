@@ -1,0 +1,12 @@
+- name: include vars
+  include_vars: "{{ playbook_dir }}/config.yml"
+
+- name: Get Git Repo
+  git:
+    repo: https://github.com/cdufour/simpleweb
+    dest: "{{ destdir }}"
+
+- name: Change owner
+  file:
+    path: "{{ destdir }}"
+    owner: vagrant

@@ -1,0 +1,52 @@
+- name: Test Playbook
+  hosts: targets
+
+  tasks:
+    - name: Test ping
+      ping:
+
+    - name: Touch as vagrant
+      command: "touch /tmp/touch_test"
+
+    - name: Touch as root
+      become: yes # commande executee en tant que root
+      command: "touch /tmp/touch_test2"
+
+    - name: Echo
+      command: "echo Coucou depuis Ansible"
+      register: cmd_out
+
+    # - debug: var=cmd_out
+    # - debug: msg='{{cmd_out.stdout}}'
+
+    - name: Shell example
+      shell: "echo Coucou depuis Ansible > /tmp/shell_example"
+
+    - name: Change owner
+      become: yes
+      file: 
+        path: /tmp/shell_example
+        owner: "root"
+
+    - name: Commande with env var
+      command: touch $DIR/$FILENAME
+      environment:
+        DIR: /tmp
+        FILENAME: cmd_env_example
+
+    - name: Commande with env var 2
+      command: touch $FILENAME
+      args:
+        chdir: $DIR
+      environment:
+        DIR: /tmp
+        FILENAME: cmd_env_example_2
+
+    - name: Apt example (apache)
+      become: yes
+      apt:
+        name: apache2
+        # Installation apache state 'changed' if not present, 'ok' if present.
+        # state: latest
+        # Desinstallation apache
+        state: absent

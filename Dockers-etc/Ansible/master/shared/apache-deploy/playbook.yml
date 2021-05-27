@@ -1,0 +1,44 @@
+- 
+  name: Apache deploy
+  hosts: all
+  become: yes
+
+  vars: 
+    groupsName:
+      - musketeers
+      - developers
+    users: [{name: 'Athos', group: 'musketeers'}, {name: 'Alex', group: 'developers'}]
+
+  tasks:
+    - name: Install Apache + PHP
+      apt: name={{item}} state=latest
+      loop: ['apache2', 'php', 'libapache2-mod-php', 'php-mysql']
+
+    - name: Start apache
+      service: name=apache2 state=started # state=reloaded
+
+    - name: Create Group
+      group: name={{item}} state=present
+      loop: "{{ groupsName }}"
+
+    - name: Create user
+      user: name={{item.name}} group={{item.group}}
+      loop: "{{ users }}"
+
+    - name: Create user folder in Apache Document Root
+      file: path=/var/www/html/{{item.name}} state=directory
+      loop: "{{ users }}"
+
+    - name: Copy php files
+      tags: copy
+      copy: src=files/{{item.group}}/index.php dest=/var/www/html/{{item.name}} owner={{item.name}}
+      loop: "{{ users }}"
+
+- 
+  name: Docker Install + container
+  hosts: all
+  tags: docker
+  become: yes # become_user: root
+  roles: 
+    - docker
+    - container

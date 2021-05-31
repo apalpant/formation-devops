@@ -1,0 +1,228 @@
+POST _bulk
+{ "create" : { "_index" : "heroes", "_id": "ironman"} }
+{"firstName":"Tony","lastName":"Stark","aka":"Iron Man","team":"Avengers","age":45}
+{ "create" : { "_index" : "heroes", "_id": "thor"} }
+{"firstName":"Thor","lastName":"Odinson","aka":"Thor","team":"Avengers","age":27}
+{ "create" : { "_index" : "heroes", "_id": "antman"} }
+{"firstName":"Hank","lastName":"Pym","aka":"Ant-Man","team":"Avengers","age":41}
+{ "create" : { "_index" : "heroes", "_id": "wasp"} }
+{"firstName":"Janet","lastName":"van Dyne","aka":"Wasp","team":"Avengers","age":32}
+{ "create" : { "_index" : "heroes", "_id": "hulk"} }
+{"firstName":"Bruce","lastName":"Banner","aka":"Hulk","team":"Avengers","age":41}
+{ "create" : { "_index" : "heroes", "_id": "misterfantastic"} }
+{"firstName":"Reed","lastName":"Richards","aka":"Mister Fantastic","team":"FantasticFour","age":47}
+{ "create" : { "_index" : "heroes", "_id": "invisiblewoman"} }
+{"firstName":"Susan","lastName":"Storm","aka":"Invisible Woman","team":"FantasticFour","age":29}
+{ "create" : { "_index" : "heroes", "_id": "thehumantorch"} }
+{"firstName":"Johnny","lastName":"Storm","aka":"The Human Torch","team":"FantasticFour","age":25}
+{ "create" : { "_index" : "heroes", "_id": "thething"} }
+{"firstName":"Ben","lastName":"Grimm","aka":"The Thing","team":"FantasticFour","age":42}
+
+GET heroes/_search
+
+GET heroes/_search?pretty&_source=firstName
+
+POST heroes/_search
+{
+  "query": {
+      "match": {
+         "lastName": "storm"
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "query": {
+      "wildcard": {
+         "firstName": {
+            "value": "t*"
+         }
+      }
+    }
+}
+
+POST heroes/_search
+{
+  "query": {
+      "wildcard": {
+         "firstName": {
+            "value": "b*"
+         }
+      }
+    },
+    "fields": ["team", "aka"],
+    "_source": false
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "team.keyword"
+          }
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "lastName.keyword"
+          }
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "team.keyword"
+          },
+          "aggs" : {
+              "names" : {
+                  "terms": {
+                      "field": "lastName.keyword"
+                  }
+              }
+          }
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "query": {
+   "wildcard": {
+       "firstName": {
+          "value": "b*"
+       }
+    }
+  }, 
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "team.keyword"
+          },
+          "aggs" : {
+              "names" : {
+                  "terms": {
+                      "field": "lastName.keyword"
+                  }
+              }
+          }
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "team.keyword"
+          },
+          "aggs" : {
+              "names" : {
+                  "terms": {
+                      "field": "lastName.keyword"
+                  }
+              }
+          }
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "team.keyword"
+          },
+          "aggs" : {
+              "avgAge" : {
+                  "avg" : {
+                      "field" : "age"
+                  }
+              }
+          }
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "team.keyword"
+          },
+          "aggs" : {
+              "max" : {
+                  "max": {
+                      "field" : "age"
+                  }
+              }
+          }
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "query": {
+   "wildcard": {
+       "firstName": {
+          "value": "t*"
+       }
+    }
+  },
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "team.keyword"
+          },
+          "aggs" : {
+              "max" : {
+                  "max": {
+                      "field" : "age"
+                  }
+              }
+          }
+      }
+  }
+}
+
+POST heroes/_search
+{
+  "size": 0,
+  "aggs" : {
+      "teams" : {
+          "terms": {
+              "field": "team.keyword"
+          },
+          "aggs" : {
+            "ages": {
+              "histogram": {
+                "field": "age",
+                "interval": 10
+              }
+            }
+          }
+      }
+  }
+}

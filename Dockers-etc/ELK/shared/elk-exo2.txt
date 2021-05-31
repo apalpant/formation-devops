@@ -1,0 +1,53 @@
+POST heroes/_doc/ironman
+{
+ "firstName" : "Tony",
+	"lastName" : "Stark" 
+}
+
+GET heroes/_doc/ironman
+
+HEAD heroes/_doc/ironman
+
+GET heroes/_source/1
+
+GET heroes
+
+GET heroes/_search
+{
+    "query": {
+        "match_all": {}
+    }
+}
+
+GET heroes/_search?q=firstName:Tomy
+
+GET heroes/_doc/ironman?stored_fields=firstName
+
+HEAD heroes/_source/ironman
+
+PUT heroes/_doc/1
+{
+  "firstName": "Tomy",
+  "lastName" : "Stark" 
+}
+
+GET heroes/_source/1
+
+GET heroes/_source/ironman
+
+POST heroes/_update/1
+{
+ "doc": {
+    "firstName": "new_name"
+  }
+}
+
+GET heroes/_source/1
+
+GET heroes/_doc/ironman?stored_fields=firstName
+
+GET /_cat/indices/heroes
+
+
+http://192.168.33.20:9200/heroes
+

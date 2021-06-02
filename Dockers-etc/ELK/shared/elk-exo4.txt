@@ -1,0 +1,7 @@
+https://github.com/vanessakovalsky/elk-training/blob/main/exercise-4-logstash.md
+
+copie de apache-access.log et apache.conf dans le pipeline puis avec docker exec cp du log vers /tmp/
+
+attention a l'adresse elestic search et le chemin ou se trouve les logs...
+
+https://github.com/daniellavoie/formation-elk/tree/master/exercice-twitter

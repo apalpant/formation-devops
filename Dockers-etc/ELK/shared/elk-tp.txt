@@ -1,0 +1,430 @@
+https://github.com/vanessakovalsky/elk-training/blob/main/tp-elasticsearch.md
+
+curl -s -H "Content-Type: application/json" -XPOST http://192.168.33.20:9200/_bulk/ --data-binary @big-movies-elastic.json --user elastic:changeme
+
+Rechercher les films dont le titre contient "Star Wars"
+
+POST movies/_search
+{
+  "query": {
+      "match_phrase": {
+         "fields.title": "Star Wars"
+      }
+  }
+}
+
+Recherche les Films dont le titre contient “Star Wars” et dont le réalisateur (directors) est “George Lucas” (requête booléenne)Rechercher les films dans lequel "Harisson Ford" est acteur
+
+GET _search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "fields.title": "Star Wars"
+          }
+        },
+        {
+          "match_phrase": {
+            "fields.directors": "George Lucas"
+          }
+        }
+      ]
+    }
+  }
+}
+
+Rechercher les films dans lequel "Harisson Ford" est acteur
+
+POST movies/_search
+{
+  "query": {
+      "match_phrase": {
+         "fields.actors": "Harisson Ford"
+      }
+  },
+  "_source": false,
+  "fields": [
+    "fields.title"
+  ]
+}
+
+Rechercher les Films dans lesquels “Harrison Ford” a joué et dont le résumé (plot) contient “Jones”.
+
+GET _search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "fields.actors": "Harrison Ford"
+          }
+        },
+        {
+          "match": {
+            "fields.plot": "Jones"
+          }
+        }
+      ]
+    }
+  }
+}
+
+Rechercher les Films dans lesquels “Harrison Ford” a joué et dont le résumé (plot) contient “Jones” mais sans le mot “Nazis”
+
+GET _search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "fields.actors": "Harrison Ford"
+          }
+        },
+        {
+          "match": {
+            "fields.plot": "Jones"
+          }
+        }
+      ],
+      "must_not": {
+        "match": {
+          "fields.plot": "Nazis"
+        }
+      }
+    }
+  }
+}
+
+Rechercher les Films dont le realisateur (director) est “James Cameron” et dont le rang devrait être inférieur à 1000 (boolean + range query).
+
+POST movies/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "fields.directors": "James Cameron"
+          }
+        }
+      ],
+      "should": [
+        {
+          "range": {
+            "fields.rank": {
+              "lt": 1000
+            }
+          }
+        }
+      ]
+    }
+  },
+  "_source": false,
+  "fields": [
+    "fields.title",
+    "fields.rank",
+    "fields.directors"
+  ]
+}
+
+Rechercher les Films dont le realisateur (director) est “James Cameron” et dont le rang doit être inférieur à 400 (réponse exacte : 2)
+
+POST movies/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "fields.directors": "James Cameron"
+          }
+        },
+        {
+          "range": {
+            "fields.rank": {
+              "lt": 400
+            }
+          }
+        }
+      ]
+    }
+  },
+  "_source": false,
+  "fields": [
+    "fields.title",
+    "fields.rank",
+    "fields.directors"
+  ]
+}
+
+Rechercher les Films dont le realisateur (director) est “Quentin Tarantino” et dont la note (rating) doit être supérieure à 5, sans être un film d’action ni un drame
+
+POST movies/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "fields.directors": "Quentin Tarantino"
+          }
+        },
+        {
+          "range": {
+            "fields.rating": {
+              "gte": 5
+            }
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "fields.genres": "Action"
+          }
+        },
+        {
+          "match": {
+            "fields.genres": "Drama"
+          }
+        }
+      ]
+    }
+  },
+  "_source": false,
+  "fields": [
+    "fields.title",
+    "fields.rating",
+    "fields.directors",
+    "fields.genres"
+  ]
+}
+
+Recherche les Films dont le réalisateur (director) est “J.J. Abrams” et sortis (released) entre 2010 et 2015
+
+GET _search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "fields.directors": "J.J. Abrams"
+          }
+        },
+        {
+          "range": {
+            "fields.year": {
+              "gte": 2010,
+              "lte": 2015
+            }
+          }
+        }
+      ]
+    }
+  },
+  "_source": {
+    "includes": [
+      "*.title"
+    ],
+    "excludes": [
+      "*.actors*"
+    ]
+  }
+}
+
+GET _search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "fields.directors": "J.J. Abrams"
+        }
+      },
+      "filter": {
+        "range": {
+          "fields.release_date": {
+            "from": "2010-01-01",
+            "to": "2015-12-31"
+          }
+        }
+      }
+    }
+  }
+}
+
+Aggregation de données
+
+Donner la note (rating) moyenne des films.
+
+GET /movies/_search
+{
+  "size": 0,
+  "aggs": {
+    "average": {
+      "avg": {
+        "field": "fields.rating"
+      }
+    }
+  }
+}
+
+Donner la note (rating) moyenne, et le rang moyen des films de George Lucas (cliquer sur (-) à côté de « hits » dans l’interface pour masquer les résultats et consulter les valeurs calculées)
+
+GET /movies/_search
+{
+  "query": {
+    "match_phrase": {
+      "fields.directors": "George Lucas"
+    }
+  },
+  "size": 0,
+  "aggs": {
+    "average-rating": {
+      "avg": {
+        "field": "fields.rating"
+      }
+    },
+    "average-rank": {
+      "avg": {
+        "field": "fields.rank"
+      }
+    }
+  }
+}
+
+Donnez la note (rating) moyenne des films par année. Attention, il y a ici une imbrication d’agrégats (on obtient par exemple 456 films en 2013 avec un rating moyen de 5.97).
+
+GET /movies/_search
+{
+  "aggs": {
+    "group_year": {
+      "terms": {
+        "field": "fields.year"
+      },
+      "aggs": {
+        "note_moyenne": {
+          "avg": {
+            "field": "fields.rating"
+          }
+        }
+      }
+    }
+  }
+}
+
+Donner la note (rating) minimum, maximum et moyenne des films par année.
+
+GET /movies/_search
+{
+  "aggs": {
+    "group_year": {
+      "terms": {
+        "field": "fields.year"
+      },
+      "aggs": {
+        "note_min": {
+          "min": {
+            "field": "fields.rating"
+          }
+        },
+        "note_max": {
+          "max": {
+            "field": "fields.rating"
+          }
+        },
+        "note_moyenne": {
+          "avg": {
+            "field": "fields.rating"
+          }
+        }
+      }
+    }
+  }
+}
+
+Donner le rang (rank) moyen des films par année et trier par ordre décroissant.
+
+GET /movies/_search
+{
+  "aggs": {
+    "group_year": {
+      "terms": {
+        "field": "fields.year",
+        "order": {
+          "rank_moyen": "desc"
+        }
+      },
+      "aggs": {
+        "rank_moyen": {
+          "avg": {
+            "field": "fields.rank"
+          }
+        }
+      }
+    }
+  }
+}
+
+VANESSA :
+
+GET /movies/_search
+{
+  "aggs": {
+    "group_year": {
+      "terms": {
+        "field": "fields.year",
+        "order": {
+          "rating_moyen": "desc"
+        }
+      },
+      "aggs": {
+        "rating_moyen": {
+          "avg": {
+            "field": "fields.rating"
+          }
+        }
+      }
+    }
+  }
+}
+
+Compter le nombre de films par tranche de note (0-1.9, 2-3.9, 4-5.9…). Indice : group_range.
+
+VANESSA :
+
+GET /movies/_search
+{
+  "aggs": {
+    "group_range": {
+      "range": {
+        "field": "fields.rating",
+        "ranges": [
+          {
+            "to": 1.9
+          },
+          {
+            "from": 2,
+            "to": 3.9
+          },
+          {
+            "from": 4,
+            "to": 5.9
+          },
+          {
+            "from": 6,
+            "to": 7.9
+          },
+          {
+            "from": 8
+          }
+        ]
+      }
+    }
+  }
+}

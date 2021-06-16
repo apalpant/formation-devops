@@ -11,33 +11,51 @@ vpcId=`aws ec2 create-vpc \
 
 echo 'vpc '$vpcId
 
+gatewayId=`aws ec2 create-internet-gateway \
+            --query InternetGateway.InternetGatewayId --output text`
+
+echo 'gateway '$gatewayId
+
+aws ec2 attach-internet-gateway --internet-gateway-id $gatewayId --vpc-id $vpcId
+
+echo 'gateway attachee au vpc'
+
+routeTableId=`aws ec2 create-route-table --vpc-id $vpcId \
+            --query RouteTable.RouteTableId --output text`
+
+echo 'route-table '$routeTableId
+
+aws ec2 create-route --route-table-id $routeTableId --destination-cidr-block 0.0.0.0/0 --gateway-id $gatewayId
+
 subnetId=`aws ec2 create-subnet \
     --vpc-id $vpcId \
     --cidr-block $cidr \
     --query Subnet.SubnetId --output text`
 
-securityGroup=`aws ec2 create-security-group \
+aws ec2 associate-route-table --route-table-id $routeTableId --subnet-id $subnetId
+
+securityGroupId=`aws ec2 create-security-group \
                     --group-name my-sg \
                     --description "My security group" \
                     --vpc-id $vpcId \
                     --query GroupId --output text`
 
-echo 'security group '$securityGroup
+echo 'security group '$securityGroupId
 
 aws ec2 authorize-security-group-ingress \
-    --group-id $securityGroup \
+    --group-id $securityGroupId \
     --protocol tcp \
     --port 22 \
-    --cidr $cidr \
+    --cidr 0.0.0.0/0 \
     --region $region
 
 echo 'ouverture du port 22 faite'
 
 aws ec2 authorize-security-group-ingress \
-    --group-id $securityGroup \
+    --group-id $securityGroupId \
     --protocol tcp \
     --port 80 \
-    --cidr $cidr \
+    --cidr 0.0.0.0/0 \
     --region $region
 
 echo 'ouverture du port 80 faite'
@@ -65,7 +83,7 @@ instanceId=`aws ec2 run-instances \
     --count 1 \
     --instance-type t2.micro \
     --key-name $KEY_NAME \
-    --security-group-ids $securityGroup \
+    --security-group-ids $securityGroupId \
     --subnet-id $subnetId \
     --query "Instances[*].InstanceId" --output text`
 

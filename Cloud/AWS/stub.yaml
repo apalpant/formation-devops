@@ -1,0 +1,7 @@
+AWSTemplateFormatVersion : "2010-09-09"
+Description : "Description de mon stub.yaml"
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: learn-cloudformation-alex

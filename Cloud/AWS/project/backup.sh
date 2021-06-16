@@ -30,7 +30,7 @@ tar -cjf $filebackup -P /home/project/folder2backup
 aws s3 cp $filebackup s3://$bucketname
 
 # suppression de fichiers suivant une date
-aws s3 ls --recursive s3://myawsbucket-tp | awk '$1 < "2021-06-16"' | xargs -n1 -t -I 'KEY' aws s3 rm s3://myawsbucket-tp/'KEY'
+aws s3 ls --recursive s3://$bucketname | awk '$1 < "2021-06-16" {print $4}' | xargs -n1 -t -I 'KEY' aws s3 rm s3://$bucketname/'KEY'
 
 # deplacement d'un fichier dans un autre type d'enregistrement
 aws s3 mv $filebackup s3://$bucketname --storage-class STANDARD_IA

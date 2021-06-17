@@ -1,0 +1,9 @@
+sudo yum install -y httpd openssl php-common php-curl php-json php-mbstring php-mysql php-xml php-zip
+sudo yum install -y mariadb-server.x86_64
+sudo service mariadb start
+mysqladmin -u root create blog
+mysql_secure_installation
+
+cd /var/www/html
+sudo wget http://wordpress.org/latest.tar.gz
+sudo tar -xzvf latest-fr_FR.tar.gz .

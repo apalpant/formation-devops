@@ -34,6 +34,8 @@ subnetId=`aws ec2 create-subnet \
 
 aws ec2 associate-route-table --route-table-id $routeTableId --subnet-id $subnetId
 
+aws ec2 modify-subnet-attribute --subnet-id $subnetId --map-public-ip-on-launch
+
 securityGroupId=`aws ec2 create-security-group \
                     --group-name my-sg \
                     --description "My security group" \
@@ -89,5 +91,15 @@ instanceId=`aws ec2 run-instances \
 
 aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=vm-tp1
 
+instanceIp=`aws ec2 describe-instances \
+    --instance-ids $instanceId \
+    --query "Reservations[0].Instances[0].PublicIpAddress" --output text`
+
 echo 'lancement de l instance de la vm termine'
 
+echo 'debut de l attente'
+sleep 30
+echo 'attente termine'
+
+echo 'tentative de connexion ssh'
+ssh -i $FILE -o StrictHostKeyChecking=accept-new ec2-user@$instanceIp

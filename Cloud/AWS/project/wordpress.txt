@@ -1,6 +1,7 @@
 sudo yum install -y httpd openssl php-common php-curl php-json php-mbstring php-mysql php-xml php-zip
 sudo yum install -y mariadb-server.x86_64
 sudo service mariadb start
+sudo service httpd start
 mysqladmin -u root create blog
 mysql_secure_installation
 

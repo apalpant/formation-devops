@@ -89,6 +89,10 @@ instanceId=`aws ec2 run-instances \
     --subnet-id $subnetId \
     --query "Instances[*].InstanceId" --output text`
 
+# scp wordpress-install.sh
+
+# RETEC2CREATE=$($AWSBIN ec2 run-instances --image-id $IMGID --count 1 --instance-type $INSTANCETYP --key-name $SSHKEYUSED --security-group-ids $IDGRP --subnet-id $RETAWSVPCSUB1ID --user-data file://install.sh)
+
 aws ec2 create-tags --resources $instanceId --tags Key=Name,Value=vm-tp1
 
 instanceIp=`aws ec2 describe-instances \

@@ -1,0 +1,18 @@
+[
+    {
+        "ParameterKey": "InstanceTypeParameter",
+        "ParameterValue": "t2.micro"
+    },
+    {
+        "ParameterKey": "KeyPairName",
+        "ParameterValue": "vm-tp1-key"
+    },
+    {
+        "ParameterKey": "BucketNameParameter",
+        "ParameterValue": "lebucketdalex"
+    },
+    {
+        "ParameterKey": "ImageIdParameter",
+        "ParameterValue": "ami-00c08ad1a6ca8ca7c"
+    }
+]

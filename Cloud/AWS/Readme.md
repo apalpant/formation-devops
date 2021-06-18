@@ -39,3 +39,7 @@ Ne pas oublier de creer le repository (Service ECR)
 docker push 401827484611.dkr.ecr.eu-west-3.amazonaws.com/demo-repository:latest
 
 	cloud formation
+	
+https://github.com/vanessakovalsky/aws-training/	
+	
+aws cloudformation validate-template --template-body file:///home/local/test/sampletemplate.json

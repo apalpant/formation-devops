@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation template for tp2 ec2
+
+Resources:
+  Ec2Instance: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      InstanceType : t2.micro
+      ImageId: ami-00c08ad1a6ca8ca7c
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          GroupSet: 
+            - Ref: mySecurityGroup
+          SubnetId: 
+            Ref: mySubnet

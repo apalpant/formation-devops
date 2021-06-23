@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# List all available locations in Azure.
+# az account list-locations -o table
+
+# Create a resource group.
+az group create 
+	--name tp1-apalpant-rg --location francecentral
+
+# Create a general-purpose storage account in your resource group.
+az storage account create \
+    --resource-group myResourceGroup \
+    --name mystorageaccount \
+    --location westeurope \
+    --sku Standard_LRS
+
+# Check if group is created.
+az group list
+
+# Create a virtual network.
+az network vnet create `
+--resource-group tp1-apalpant-rg `
+--name tp1-apalpant-vnet `
+--address-prefixes 10.42.0.0/42 `
+--subnet-name tp1-apalpant-subnet0 `
+--subnet-prefixes 10.42.0.0/24

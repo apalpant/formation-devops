@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_az104_08_vm0_apalpant_name": {
+            "defaultValue": "az104-08-vm0-apalpant",
+            "type": "String"
+        },
+        "disks_az104_08_vm0_apalpant_disk1_0d148a88a4dc4c6895eda8a19e996193_externalid": {
+            "defaultValue": "/subscriptions/873000fa-a741-48e5-8ae7-41c7937c47c3/resourceGroups/az104-08-rg01-apalpant/providers/Microsoft.Compute/disks/az104-08-vm0-apalpant_disk1_0d148a88a4dc4c6895eda8a19e996193",
+            "type": "String"
+        },
+        "networkInterfaces_az104_08_vm0_apalpan867_externalid": {
+            "defaultValue": "/subscriptions/873000fa-a741-48e5-8ae7-41c7937c47c3/resourceGroups/az104-08-rg01-apalpant/providers/Microsoft.Network/networkInterfaces/az104-08-vm0-apalpan867",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2021-03-01",
+            "name": "[parameters('virtualMachines_az104_08_vm0_apalpant_name')]",
+            "location": "southcentralus",
+            "zones": [
+                "1"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2019-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_az104_08_vm0_apalpant_name'), '_disk1_0d148a88a4dc4c6895eda8a19e996193')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_az104_08_vm0_apalpant_disk1_0d148a88a4dc4c6895eda8a19e996193_externalid')]"
+                        },
+                        "diskSizeGB": 127
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "az104-08-vm0-ap",
+                    "adminUsername": "Student",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": false,
+                        "patchSettings": {
+                            "patchMode": "Manual",
+                            "assessmentMode": "ImageDefault",
+                            "enableHotpatching": false
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_az104_08_vm0_apalpan867_externalid')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "https://az10408rg01apalpantdiag.blob.core.windows.net/"
+                    }
+                }
+            }
+        }
+    ]
+}

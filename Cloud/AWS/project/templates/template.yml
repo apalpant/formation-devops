@@ -108,6 +108,14 @@ Resources:
             - Ref: mySecurityGroup
           SubnetId: 
             Ref: mySubnet
+      UserData: 
+        Fn::Base64: |
+          #!/bin/bash -xe
+          yum update -y # good practice to update existing packages
+          yum install -y httpd # install web server 
+          systemctl start httpd
+          systemctl enable httpd
+          echo "Hello World" > /var/www/html/index.html
     
   S3Bucket:
     Type: AWS::S3::Bucket

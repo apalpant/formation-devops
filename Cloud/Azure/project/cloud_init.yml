@@ -22,9 +22,9 @@ write_files:
         }
       }
 runcmd:
-  - service nginx restart
   - cd "/home/vagrant"
   - git clone https://github.com/Azure-Samples/nodejs-docs-hello-world
   - cd "/home/vagrant/nodejs-docs-hello-world"
   - npm install pm2
   - ./node_modules/pm2/bin/pm2 start -f index.js
+  - service nginx restart

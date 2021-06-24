@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PREFIX=tp1-apalpant
+PREFIX=tp2-apalpant
 RESOURCE_GROUP=$PREFIX-rg
 VNET=$PREFIX-vnet
 SUBNET=$PREFIX-subnet0
